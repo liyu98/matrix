@@ -59,8 +59,8 @@ class State:
         try:
             requests.post(
                 url='http://{}:{}/send_state'.format(
-                    hosts['frontend']['host'],
-                    hosts['frontend']['port']
+                    hosts['dashboard']['host'],
+                    hosts['dashboard']['port']
                 ),
                 json=payload
             )
@@ -90,8 +90,8 @@ class State:
         try:
             requests.post(
                 url='http://{}:{}/ping'.format(
-                    hosts['frontend']['host'],
-                    hosts['frontend']['port']
+                    hosts['dashboard']['host'],
+                    hosts['dashboard']['port']
                 ),
                 json=payload
             )
