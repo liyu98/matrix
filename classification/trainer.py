@@ -122,14 +122,10 @@ class Trainer(object):
 
     def initModel(self):
         print("init model")
-        # cudnn.benchmark = True
 
         if large:
             print("Not implemented")
-            # TODO: Not implemented
-            # for filter viz only
-            # from classification.classification_model_large_viz import \
-            #     ClassificationModelLargeViz as Model
+
         else:
             # the main model
             from classification.classification_model import \
@@ -226,16 +222,6 @@ class Trainer(object):
         torch.save(state, filename)
         logging.info('\t...Done.')
 
-    #@staticmethod
-    #def make():
-    #    random.seed(454878 + time.time() + os.getpid())
-    #    np.random.seed(int(12683 + time.time() + os.getpid()))
-    #    torch.manual_seed(23142 + time.time() + os.getpid())
-
-    #    ex = Trainer()
-    #    ex.run()
-
-
 class SecAggTrainer(Trainer):
     def __init__(self,
                  port,
@@ -287,14 +273,6 @@ class ClientTrainer(Trainer):
             if not self.file_exists(self.metaFile):
                 logging.info('[Client Trainer] File {} '
                              'does not exist.'.format(self.metaFile))
-                # logging.warning(
-                #     '[Client Trainer] Will attempt to split dataset from '
-                #     "{}/metadata.mat. THIS WON'T WORK if running in multiple "
-                #     'servers. If so, please split the file manually '
-                #     '(using shared/dataset_utils.py) and copy it into '
-                #     'the different servers manually.'.format(mf))
-                # fn = '{}/metadata.mat'.format(mf)
-                # dataset_tools.split_dataset(fn, data_split_type, num_clients)
             else:
                 logging.info('File {} already exists. '
                              'Not creating.'.format(self.metaFile))

@@ -1,10 +1,7 @@
 import yaml
-import sys
 import os
 
-
 def read_hosts(override_localhost=False):
-    # print(sys.argv[0])
 
     cwd = os.getcwd()
     file = cwd + "/hosts.yml"
@@ -12,7 +9,6 @@ def read_hosts(override_localhost=False):
     with open(file, 'r') as f:
         hosts = yaml.safe_load(f)
     if override_localhost:
-        # Change to hosts to localhost
         for x, vals in hosts.items():
             if x != 'dashboard' and x != 'clients':
                 hosts[x]['host'] = 'localhost'

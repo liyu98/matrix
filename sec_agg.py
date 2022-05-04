@@ -1,5 +1,3 @@
-# import sys; sys.path.insert(0, 'secure_aggregator')
-
 # 联邦学习安全聚合器
 # Federated Learning Secure Aggregator
 

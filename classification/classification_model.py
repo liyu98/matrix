@@ -1,4 +1,3 @@
-import datetime, re
 from collections import OrderedDict
 import torch
 import torch.nn as nn
@@ -7,12 +6,8 @@ import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
 import logging
-
 from shared.base_model import BaseModel
 from shared.resnet_3x3 import resnet18
-
-
-''' The final model '''
 
 
 class SmallNet(nn.Module):
@@ -81,7 +76,6 @@ class ClassificationModel(BaseModel):
                               nFrames=self.sequenceLength)
         self.model = torch.nn.DataParallel(self.model)
 
-        # TODO: FIX THIS. NOT WORKING WITH MY MAC
         use_cuda = True
         if use_cuda is True and not torch.cuda.is_available():
             logging.info('WARNING: Cuda not available. Running on CPU')
@@ -165,8 +159,6 @@ class ClassificationModel(BaseModel):
 
         res = []
         for k in topk:
-            # correct_k = correct[:k].view(-1).float().sum(0, keepdim=True)
-            # The contiguous call is to fix a bug in older torch versions
             correct_k = correct[:k].contiguous().view(-1).float().sum(0, keepdim=True)
             res.append(correct_k.mul_(100.0 / batch_size).item())
         return res[0], res[1]
@@ -182,7 +174,6 @@ class ClassificationModel(BaseModel):
         self.adjust_learning_rate_new(epoch, self.baseLr)
 
     def adjust_learning_rate_new(self, epoch, base_lr, period=100):
-        # train for 2x100 epochs
         gamma = 0.1 ** (1.0/period)
         lr_default = base_lr * (gamma ** (epoch))
         logging.info('New lr_default = %f' % lr_default)

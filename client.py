@@ -37,9 +37,6 @@ class Client:
         self.trainer.save_model()
 
     def update_model(self, path):
-        # TODO: init_model here may not be necessary but it is to
-        # make sure that all weights are set to start
-        # self.init_model()
         self.trainer.update_model_from_file(path)
 
     def get_model_filename(self):

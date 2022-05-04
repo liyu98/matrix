@@ -1,7 +1,6 @@
 # 联邦机器学习流程编排模拟器
 # Federated Learning flow Orchestration Simulator
 
-
 import requests
 import time
 import logging
@@ -41,39 +40,39 @@ def check_response_ok(res):
 
 
 def send_iteration_to_frontend(i):
-    logging.info('Sending iteration number to frontend')
+    logging.info('Sending iteration number to dashboard')
     try:
-        print('send_iteration_to_frontend - http://{}:{}/iteration'.format(hosts['frontend']['host'], hosts['frontend']['port']))
+        print('send_iteration_to_dashboard - http://{}:{}/iteration'.format(hosts['dashboard']['host'], hosts['dashboard']['port']))
         requests.post(
             url='http://{}:{}/iteration'.format(
-                hosts['frontend']['host'],
-                hosts['frontend']['port']
+                hosts['dashboard']['host'],
+                hosts['dashboard']['port']
             ),
             json={'iteration': i}
         )
     except:
-        logging.warning('Frontend may be down')
+        logging.warning('Dashboard may be down')
 
 
 def end_frontend():
-    logging.info('Sending end signal to frontend')
+    logging.info('Sending end signal to dashboard')
     try:
-        print('http://{}:{}/finish'.format(hosts['frontend']['host'], hosts['frontend']['port']))
+        print('http://{}:{}/finish'.format(hosts['dashboard']['host'], hosts['dashboard']['port']))
         requests.post(
-            url='http://{}:{}/finish'.format(hosts['frontend']['host'],
-                                             hosts['frontend']['port']))
+            url='http://{}:{}/finish'.format(hosts['dashboard']['host'],
+                                             hosts['dashboard']['port']))
     except:
-        logging.warning('frontend may be down')
+        logging.warning('dashboard may be down')
 
 
 def restart_frontend():
-    logging.info('Restarting frontend')
+    logging.info('Restarting dashboard')
     try:
-        print('http://{}:{}/restart'.format(hosts['frontend']['host'], hosts['frontend']['port']))
+        print('http://{}:{}/restart'.format(hosts['dashboard']['host'], hosts['dashboard']['port']))
         requests.post(
             url='http://{}:{}/restart'.format(
-                hosts['frontend']['host'],
-                hosts['frontend']['port']
+                hosts['dashboard']['host'],
+                hosts['dashboard']['port']
             )
         )
     except:
@@ -91,7 +90,7 @@ def main(op_mode, communication_rounds):
         logging.info('Iteration {}...'.format(i))
         send_iteration_to_frontend(i)
 
-        # 删除客户模式
+        # 删除客户模型
         logging.info('Deleting client models...')
         url = 'http://{}:{}/del_client_models'.format(
             hosts['secure_aggregator']['host'],
@@ -105,7 +104,6 @@ def main(op_mode, communication_rounds):
         # 开始训练模型
         logging.info('Sending /train_model request to clients...')
         ch.perform_requests_and_wait('train_model')
-        # logging.info('Performed clients: {}'.format(performed_clients))
         logging.info('Done')
         log_elapsed_time(start)
         # 发送训练模型
@@ -114,7 +112,7 @@ def main(op_mode, communication_rounds):
         # logging.info('Performed clients: {}'.format(performed_clients))
         logging.info('Done')
         log_elapsed_time(start)
-
+        # 发送服务端计算FEDAVG
         logging.info('Sending /aggregate_models '
                      'command to secure aggregator...')
         url = 'http://{}:{}/aggregate_models'.format(

@@ -3,7 +3,6 @@ import numpy as np
 
 from classification.touch_dataset import TouchDataset, MetadataLoader
 
-
 class ObjectDataset(TouchDataset):
     def __init__(self, split='train', doAugment=False, doFilter=True,
                  doBalance=True, sequenceLength=5, objectId=None,

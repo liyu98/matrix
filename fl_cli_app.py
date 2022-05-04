@@ -1,5 +1,3 @@
-# import sys; sys.path.insert(0, 'client')
-
 # 联邦学习客户端
 # Federated Learning Client
 #  -p 8003 -n 0
