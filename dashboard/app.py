@@ -14,7 +14,6 @@ global_state = {
     'finished_training': False
 }
 
-
 def check_clients_ok():
     global global_state
     for client_id, client in global_state['clients'].items():
@@ -137,4 +136,5 @@ def get_state():
 
 
 if __name__ == '__main__':
+
     app.run(host='0.0.0.0', port=8002, debug=False, use_reloader=False)

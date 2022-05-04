@@ -56,7 +56,7 @@ class State:
             'host': self.host
         }
         try:
-            print("set current_state:")
+            print("set current_state:", state)
             print('http://{}:{}/send_state'.format(hosts['dashboard']['host'], hosts['dashboard']['port']))
             requests.post(
                 url='http://{}:{}/send_state'.format(
@@ -76,7 +76,7 @@ class State:
 
     def send_ping_continuously(self):
         while True:
-            print("send_ping_continuously...")
+            # print("send_ping_continuously...")
             self.send_ping()
             sleep(PING_CADENCE)
 
@@ -96,7 +96,7 @@ class State:
                 ),
                 json=payload
             )
-            print("send_ping...")
+            # print("send_ping...")
         except Exception as e:
             logging.warning('Dashboard not reachable.\n{}'.format(e))
 

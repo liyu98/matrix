@@ -35,7 +35,6 @@ args = parser.parse_args()
 hosts = utils.read_hosts()
 
 
-
 app = Flask(__name__)
 
 

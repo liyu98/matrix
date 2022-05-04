@@ -20,3 +20,6 @@ python3 ./fl_sec_app.py -p 8001
  python3 fl_cli_app.py -p 8003 -n 2
  ...
  客户端数量配置见 hosts.yml
+
+##### 模拟任务编排
+python3 fl_flow_orches.py -c 2
