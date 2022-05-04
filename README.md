@@ -1,12 +1,17 @@
 ### matrix 
 ### 操作手册
 
-#### 运行前端（dashboard） 
-
+#### 运行看板（dashboard） 
+cd dashboard 
+python3 app.py
+http://127.0.0.1:8002/dashboard
 
 #### 运行总服务端
+python3 fl_main_app.py -p 8000 
 
 #### 运行安全聚合起
+
+python3 ./fl_sec_app.py -p 8001
 
 #### 运行客户端
 

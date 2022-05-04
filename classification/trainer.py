@@ -99,11 +99,11 @@ class Trainer(object):
             self.val_loader, self.model.epoch,
             isTrain=False, sinkName='test')
 
-        logging.info('Running test with clustering...')
-        val_loader_cluster = self.loadDatasets('test', False, True)
-        res['test_cluster-top1'], res['test_cluster-top3'] = self.step(
-            val_loader_cluster, self.model.epoch,
-            isTrain=False, sinkName='test_cluster')
+        # logging.info('Running test with clustering...')
+        # val_loader_cluster = self.loadDatasets('test', False, True)
+        # res['test_cluster-top1'], res['test_cluster-top3'] = self.step(
+        #     val_loader_cluster, self.model.epoch,
+        #     isTrain=False, sinkName='test_cluster')
         logging.info('--------------\nResults:')
         for k, v in res.items():
             logging.info('\t%s: %.3f %%' % (k, v))
@@ -114,7 +114,7 @@ class Trainer(object):
         assert state is not None, \
             'Warning: Could not read checkpoint {}'.format(path)
         logging.info('[Trainer] Loading checkpoint {}...'.format(path))
-        # self.update_model(state)
+        self.update_model(state)
         logging.info('[Trainer] Client model updated')
 
     def update_model(self, state):

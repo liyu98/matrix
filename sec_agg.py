@@ -5,7 +5,7 @@
 
 import os
 import shutil
-# import torch
+import torch
 import numpy as np
 import logging
 
@@ -50,9 +50,9 @@ class SecAgg:
             for name in files:
                 if name.endswith('model.tar'):
                     fn = os.path.join(root, name)
-                    # data = torch.load(fn)
+                    data = torch.load(fn)
                     # arr.append(np.load(fn, allow_pickle=True))
-                    # arr.append(data)
+                    arr.append(data)
                     logging.info('Loaded {}'.format(fn))
         models = np.array(arr)
         logging.info('Done')
@@ -63,6 +63,8 @@ class SecAgg:
         logging.info('Averaging weights...')
         # FL average
         # TODO: Make this more efficient
+        # logging.info('\tDone. Averaged {} models'.format(len(models)))
+
         avg_model = models[0].copy()
         for k in avg_model:
             tmp = [w[k].cpu() for w in models]
@@ -78,7 +80,8 @@ class SecAgg:
 
     def aggregate_models(self):
         model_weights = self.load_models()
-        avg_weights = self.average_weights(model_weights)
+        self.weights = self.average_weights(model_weights)
+        avg_weights = self.weights
         self.trainer.update_model(avg_weights)
 
     def get_model_filename(self):
@@ -89,18 +92,18 @@ class SecAgg:
 
     def delete_client_models(self):
         logging.info('Deleting client models...')
-        # for filename in os.listdir(self.client_models_folder):
-        #     if not filename.endswith('.tar'):
-        #         continue
-        #     file_path = os.path.join(self.client_models_folder, filename)
-        #     logging.info('\tDeleting {}'.format(file_path))
-        #     try:
-        #         if os.path.isfile(file_path) or os.path.islink(file_path):
-        #             os.unlink(file_path)
-        #         elif os.path.isdir(file_path):
-        #             shutil.rmtree(file_path)
-        #     except Exception as e:
-        #         logging.info('Failed to delete %s. Reason: %s' % (file_path, e))
+        for filename in os.listdir(self.client_models_folder):
+            if not filename.endswith('.tar'):
+                continue
+            file_path = os.path.join(self.client_models_folder, filename)
+            logging.info('\tDeleting {}'.format(file_path))
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                logging.info('Failed to delete %s. Reason: %s' % (file_path, e))
         logging.info('\tDone')
 
     def test(self):

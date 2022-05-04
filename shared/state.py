@@ -7,7 +7,6 @@ import multiprocessing
 import random
 from string import ascii_uppercase, digits
 
-
 IDLE = 0
 
 CLIENT_TRAIN_MODEL = 1
@@ -35,8 +34,8 @@ class State:
         self._id = _id if _id else self.generate_random_id()
         self._current_state = IDLE
         self.current_state = IDLE
-        # p = multiprocessing.Process(target=self.send_ping_continuously)
-        # p.start()
+        p = multiprocessing.Process(target=self.send_ping_continuously)
+        p.start()
 
     def generate_random_id(self, N=8):
         rand = ''.join(random.choices(ascii_uppercase + digits, k=N))
@@ -57,6 +56,8 @@ class State:
             'host': self.host
         }
         try:
+            print("set current_state:")
+            print('http://{}:{}/send_state'.format(hosts['dashboard']['host'], hosts['dashboard']['port']))
             requests.post(
                 url='http://{}:{}/send_state'.format(
                     hosts['dashboard']['host'],
@@ -65,7 +66,7 @@ class State:
                 json=payload
             )
         except Exception as e:
-            logging.warning('Frontend not reachable.\n{}'.format(e))
+            logging.warning('Dashboard not reachable.\n{}'.format(e))
 
     def idle(self):
         self.current_state = IDLE
@@ -97,7 +98,7 @@ class State:
             )
             print("send_ping...")
         except Exception as e:
-            logging.warning('Frontend not reachable.\n{}'.format(e))
+            logging.warning('Dashboard not reachable.\n{}'.format(e))
 
     @staticmethod
     def get_state_string(state):
@@ -115,4 +116,3 @@ class State:
         if state not in strings:
             raise Exception('State not recognized')
         return strings[state]
-
