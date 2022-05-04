@@ -221,8 +221,9 @@ class Trainer(object):
         if not os.path.isdir(self.snapshotDir):
             os.makedirs(self.snapshotDir, 0o777)
         filename = self.get_best_model_path()
+        print("save_model", filename)
         logging.info('Writing checkpoint to {}...'.format(filename))
-        # torch.save(state, filename)
+        torch.save(state, filename)
         logging.info('\t...Done.')
 
     #@staticmethod

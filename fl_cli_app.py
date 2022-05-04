@@ -144,5 +144,4 @@ def get_state():
 
 
 if __name__ == '__main__':
-    client.train()
-    # app.run(host='0.0.0.0', port=client.port, debug=False, use_reloader=False)
+    app.run(host='0.0.0.0', port=client.port, debug=False, use_reloader=False)

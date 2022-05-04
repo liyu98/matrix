@@ -102,13 +102,13 @@ def main(op_mode, communication_rounds):
         check_response_ok(res)
         logging.info('Done')
 
-        # 发送训练模型
+        # 开始训练模型
         logging.info('Sending /train_model request to clients...')
         ch.perform_requests_and_wait('train_model')
         # logging.info('Performed clients: {}'.format(performed_clients))
         logging.info('Done')
         log_elapsed_time(start)
-
+        # 发送训练模型
         logging.info('Sending /send_model command to clients...')
         ch.perform_requests_and_wait('send_model')
         # logging.info('Performed clients: {}'.format(performed_clients))
@@ -121,6 +121,7 @@ def main(op_mode, communication_rounds):
             hosts['secure_aggregator']['host'],
             hosts['secure_aggregator']['port']
         )
+        print("aggregate_models-", url)
         res = requests.get(url)
         check_response_ok(res)
         test_result = res.json()
