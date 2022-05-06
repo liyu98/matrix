@@ -59,9 +59,6 @@ class SecAgg:
     @staticmethod
     def average_weights(models):
         logging.info('Averaging weights...')
-        # FL average
-        # TODO: Make this more efficient
-        # logging.info('\tDone. Averaged {} models'.format(len(models)))
 
         avg_model = models[0].copy()
         for k in avg_model:
@@ -69,10 +66,6 @@ class SecAgg:
             # avg_model[k] = np.average(tmp)
             avg_model[k] = np.true_divide(sum(tmp), len(tmp))
 
-        ## FL average
-        #fl_avg = np.average(weights, axis=0)
-        #for i in fl_avg:
-        #    logging.info(i.shape)
         logging.info('\tDone. Averaged {} models'.format(len(models)))
         return avg_model
 

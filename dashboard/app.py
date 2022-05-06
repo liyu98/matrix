@@ -1,11 +1,13 @@
+# 联邦学习应用看板
+# Federated Learning Application Dashboard
+
 from datetime import datetime, timedelta
 import json
-import random
 from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
-KEEP_ALIVE_TIMEOUT = 120  # Seconds
+KEEP_ALIVE_TIMEOUT = 120  # Seconds(S)
 
 global_state = {
     'clients': {},
@@ -46,35 +48,6 @@ def restart():
 def finish():
     global global_state
     global_state['finished_training'] = True
-    return jsonify(global_state)
-
-
-@app.route('/fake')
-def fake_data():
-    global global_state
-    client_types = ['main_server', 'secure_aggregator', 'client']
-    statuses = [
-        'IDLE', 'Training model', 'Getting aggregated model',
-        'Sending model to secure aggregator', 'Getting getting client models',
-        'Sending model to main server', 'Aggregating models',
-        'Getting model from sec agg', 'Sending model to clients'
-    ]
-    for port in range(8000, 8009):
-        client = random.choice(client_types)
-        status = random.choice(statuses)
-        check_ok = random.choice([True, False])
-        _id = 'fake_client_{}'.format(port)
-        data = {
-            'client_type': client,
-            '_id': _id,
-            'state': status,
-            'port': port,
-            'joined_at': datetime.now().strftime('%Y-%m-%d %H:%M'),
-            'check_ok': check_ok,
-            'host': '127.0.0.1',
-            'last_ping': datetime.now()
-        }
-        global_state['clients'].setdefault(_id, {}).update(data)
     return jsonify(global_state)
 
 
@@ -136,5 +109,4 @@ def get_state():
 
 
 if __name__ == '__main__':
-
     app.run(host='0.0.0.0', port=8002, debug=False, use_reloader=False)

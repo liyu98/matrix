@@ -1,7 +1,5 @@
-import sys; sys.path.insert(0, 'client')
 
 from classification import trainer
-
 
 class Client:
 

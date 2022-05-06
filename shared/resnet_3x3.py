@@ -99,19 +99,11 @@ class ResNet(nn.Module):
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.layer1 = self._make_layer(block, 64, layers[0])
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
-        #self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
-        #self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
-        #self.avgpool = nn.AvgPool2d(10, stride=1)
+
         self.avgpool = nn.AdaptiveAvgPool2d(1)
-        #self.fc = nn.Linear(512 * block.expansion, num_classes)
+
         self.dropout = nn.Dropout2d(p=0.2, inplace=False)
 
-        #for m in self.modules():
-        #    if isinstance(m, nn.Conv2d):
-        #        weight_init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-        #    elif isinstance(m, nn.BatchNorm2d):
-        #        weight_init.constant_(m.weight, 1)
-        #        weight_init.constant_(m.bias, 0)
 
     def _make_layer(self, block, planes, blocks, stride=1):
         downsample = None
@@ -140,12 +132,7 @@ class ResNet(nn.Module):
         x = self.layer1(x)
         x = self.dropout(x)
         x = self.layer2(x)
-        #x = self.layer3(x)
-        #x = self.layer4(x)
 
-        #x = self.avgpool(x)
-        #x = x.view(x.size(0), -1)
-        #x = self.fc(x)
 
         return x
 

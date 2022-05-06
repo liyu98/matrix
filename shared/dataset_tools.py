@@ -9,10 +9,9 @@ def loadMetadata(filename, silent=False):
     Loads matlab mat file and formats it for simple use.
     '''
     try:
-        # http://stackoverflow.com/questions/6273634/access-array-contents-from-a-mat-file-loaded-using-scipy-io-loadmat-python
         if not silent:
             logging.info('\tReading metadata from %s...' % filename)
-        #metadata = sio.loadmat(filename, squeeze_me=True, struct_as_record=False)
+
         metadata = MatReader().loadmat(filename)
     except:
         logging.info('\tFailed to read the meta file "%s"!' % filename)
@@ -65,8 +64,6 @@ class MatReader(object):
                 item = item.flatten()
 
             if isinstance(item, np.ndarray) and item.dtype == np.object:
-                #for v in np.nditer(item, flags=['refs_ok'], op_flags=['readwrite']):
-                #    v[...] = self._squeezeItem(v)
                 it = np.nditer(item,
                                flags=['multi_index','refs_ok'],
                                op_flags=['readwrite'])
@@ -130,8 +127,6 @@ def split_dataset(filename, split_type, num_clients):
         logging.info('Saved to: {}'.format(fout))
 
     elif split_type == 'non-iid-a':
-        # Each client receives data partition from only a single class or
-        # multiple classes in case there are fewer clients than classes
         distinct_object_ids = np.unique(metadata['objectId'])
         n_objects = len(metadata['objects'])
         assert n_objects >= num_clients, 'num_clients should be smaller than n_objects ({})'.format(n_objects)
@@ -154,13 +149,6 @@ def split_dataset(filename, split_type, num_clients):
                 new_split_ids[cond] = i
         metadata['splits'] = new_splits
         metadata['splitId'] = new_split_ids
-
-        #classes = {}
-        #for ns in new_splits:
-        #    _id = np.argwhere(new_splits == ns).flatten()[0]
-        #    args = np.argwhere(metadata['splitId'] == _id).flatten()
-        #    b = metadata['objectId'][args]
-        #    classes[ns] = np.unique(b)
 
         unique, counts = np.unique(new_split_ids, return_counts=True)
         new_classes = dict(zip(new_splits, counts))

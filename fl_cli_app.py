@@ -1,6 +1,5 @@
 # 联邦学习客户端
 # Federated Learning Client
-#  -p 8003 -n 0
 
 import argparse
 from flask import Flask, request, jsonify, abort
@@ -17,7 +16,6 @@ from shared.state import (
     State
 )
 from shared import rsa_utils
-
 
 parser = argparse.ArgumentParser(description='PyTorch FedLearn')
 parser.add_argument('-p', '--port', type=str, required=True,

@@ -1,14 +1,11 @@
-import sys; sys.path.insert(0, '.')
-import os, shutil, time, random
+import os, time
 import torch
 import numpy as np
-# import torch.backends.cudnn as cudnn
 import logging
 
 from classification.object_cluster_dataset import ObjectClusterDataset
 
-
-epochs = 1  # Before 30
+epochs = 1
 batch_size = 10
 workers = 0
 
@@ -22,12 +19,10 @@ class Trainer(object):
     def __init__(self, port, n_frames, client_id, num_clients, data_split_type):
         # Common init in both childs
         self.port = port
-        self.n_frames = n_frames  # Optimal frames == 7
+        self.n_frames = n_frames
         self.client_id = client_id
         self.num_clients = num_clients
         self.data_split_type = data_split_type
-        #self.logger = 'logs/{}.log'.format(self.client_id)
-        #self.init_logger() # Logged from parent
         self.metaFile = self.get_meta_file()
 
     def get_meta_file(self):
@@ -267,9 +262,6 @@ class ClientTrainer(Trainer):
 
         # Split dataset if file does not exist
         if self.data_split_type in ('iid', 'non-iid-a', 'non-iid-b'):
-            from shared import dataset_tools
-            # TODO: Reimplement this with a lock file.
-            # If multiple clients are spawned this can be a problem.
             if not self.file_exists(self.metaFile):
                 logging.info('[Client Trainer] File {} '
                              'does not exist.'.format(self.metaFile))

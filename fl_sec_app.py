@@ -1,12 +1,10 @@
-# import sys; sys.path.insert(0, '.')
-
 # 联邦学习安全聚合器
 # Federated Learning Secure Aggregator
+
 from flask import Flask, request, jsonify, abort
 
 import requests, json, os
 import argparse
-import ntpath
 
 from shared import utils
 from sec_agg import SecAgg
