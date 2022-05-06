@@ -37,7 +37,8 @@ python3 fl_flow_orches.py -c 2
 reference https://github.com/Erkil1452/touch
 
 ##### Functional screenshot
-![](doc/img/20220507-024348.jpg)
+
+<img src="./doc/img/20220507-024348.jpg" width="930">
 
 ---
 
@@ -77,4 +78,5 @@ python3 fl_flow_orches.py -c 2
 参考 https://github.com/Erkil1452/touch
 
 ##### 功能展示
-![](doc/img/20220507-024348.jpg)
+
+<img src="./doc/img/20220507-024348.jpg" width="930">
