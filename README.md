@@ -1,4 +1,4 @@
-### Matrix (Federated Learning)
+### Matrix (Federated Learning Project)
 
 ### Operating Manual
 
